@@ -1,0 +1,1 @@
+/* Este MODULO es el encargado de renderizar y redibujar todo el contenido, osea todo el DOM */

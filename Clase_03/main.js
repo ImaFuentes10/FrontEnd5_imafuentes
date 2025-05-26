@@ -102,10 +102,10 @@ formName.addEventListener('submit', async (e) =>{
     try {
         const pokemonData = await getPokemonByName(name.value);
         //console.log(pokemonData);
-        saveHistory(name);
+        saveHistory(name.value);
         output.innerHTML = await buildPokemonCard(pokemonData);
     } catch(err) {
-        output.innerHTML = `<p id=errorMsg>El pokemon no se encuentra! (${error.message})</p>`;
+        output.innerHTML = `<p id=errorMsg>El pokemon no se encuentra! (${err.message})</p>`;
     } finally {
         hideLoader();
     }
@@ -120,11 +120,37 @@ const hideLoader = () => document.querySelector("#loader").classList.add('hidden
 
 const MAX_HISTORY = 5;
 
-function saveHistory(name){
+function saveHistory(nombre) {
     let history = JSON.parse(localStorage.getItem('pokeHistory')) || [];
-    history = [name, ...history.filter(item => item !== name)]
-    if(history.lenght > MAX_HISTORY) 
+    history = [nombre, ...history.filter(item => item !== nombre)]
+    if (history.length > MAX_HISTORY)
         history = history.slice(0, MAX_HISTORY);
-    localStorage.setItem('pokeHistory', JSON.stringify(history))
+    localStorage.setItem('pokeHistory', JSON.stringify(history));
     renderHistory();
 }
+
+
+function renderHistory() {
+    const container = document.querySelector('#recentSearch');
+    const history = JSON.parse(localStorage.getItem('pokeHistory')) || [];
+
+    if (!history.length)
+        return container.innerHTML = '';
+
+    container.innerHTML = `
+    <h3>Recientes:</h3>
+    <div class="history-buttons">
+      ${history.map(name => `<button class="history-btn">${name}</button>`).join('')}
+    </div>
+  `;
+
+    document.querySelectorAll('.history-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelector('[name=nombrePokemon]').value = btn.textContent;
+            formName.dispatchEvent(new Event('submit'));
+        });
+    });
+}
+
+// Inicialízalo en el primer load
+renderHistory();
