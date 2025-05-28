@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +23,6 @@
 </head>
 
 <body class="bg-body-tertiary">
-
     <main class="container py-5">
         <!-- Registro de usuario -->
         <section class="mb-5">
@@ -30,7 +32,9 @@
                     <div class="col-md-6">
                         <label for="name" class="form-label">Nombre</label>
                         <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-person"></i></span>
+                            <span class="input-group-text">
+                                <i class="bi bi-person"></i>
+                            </span>
                             <input id="name" name="name" class="form-control" minlength="2" required />
                             <div class="invalid-feedback">Nombre requerido</div>
                         </div>
@@ -39,7 +43,8 @@
                         <label for="email" class="form-label">Correo</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                            <input id="email" name="email" type="email" class="form-control" required />
+                            <input id="email" name="email" placeholder="exampl@example.com" type="email"
+                                class="form-control" required />
                             <div class="invalid-feedback">Correo inválido</div>
                         </div>
                     </div>
@@ -56,8 +61,19 @@
                         <label for="phone" class="form-label">Teléfono (10 dígitos)</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-telephone"></i></span>
-                            <input id="phone" name="phone" pattern="\\d{10}" class="form-control" />
+                            <input id="phone" name="phone" placeholder="55 5555 5555" pattern="\\d{10}"
+                                class="form-control" />
                             <div class="invalid-feedback">10 dígitos requeridos</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="nickname" class="form-label">Nickname</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-person"></i>
+                            </span>
+                            <input id="nickname" name="nickname" class="form-control" />
+                            <div class="invalid-feedback">Nombre de usuario en la app</div>
                         </div>
                     </div>
                     <div class="col-12">
