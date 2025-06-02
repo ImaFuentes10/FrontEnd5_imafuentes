@@ -1,5 +1,5 @@
 /* Este MODULO es el encargado de renderizar y redibujar todo el contenido, osea todo el DOM */
-import { todos, toggleDone, removeTodo } from "./state.js"
+import { getTodos, toggleDone, removeTodo } from "./state.js"
 
 
 /* ---------- utilidades ---------- */
@@ -38,10 +38,11 @@ export function renderRegisterOutput(pre, dataObj) {
     pre.textContent = JSON.stringify(dataObj, null, 2);
 }
 
-export function renderTodoList(ul) {
+export async function renderTodoList(ul) {
     ul.replaceChildren(); // limpia
 
-    todos.forEach((todo, index) => {
+    const todos = await getTodos()
+    todos.forEach((todo) => {
         const li = document.createElement("li");
         li.className =
             "list-group-item d-flex justify-content-between align-items-center";
@@ -50,10 +51,10 @@ export function renderTodoList(ul) {
         li.innerHTML = `
       <span>${todo.task} <small class="badge bg-info ms-2">${todo.dueDate}</small></span>
       <div>
-        <button class="btn btn-sm btn-outline-success me-2" data-action="toggle" data-index="${index}">
+        <button class="btn btn-sm btn-outline-success me-2" data-action="toggle" data-id="${todo.id}">
             <i class="bi bi-check"></i>
         </button>
-        <button class="btn btn-sm btn-outline-danger" data-action="delete" data-index="${index}">
+        <button class="btn btn-sm btn-outline-danger" data-action="delete" data-id="${todo.id}">
             <i class="bi bi-trash"></i>
         </button>
       </div>
@@ -71,9 +72,9 @@ export function setupTodoActions(ul, onChange) {
 
         if (!btn) return;
 
-        const { action, index } = btn.dataset;
-        if (action === "toggle") toggleDone(index);
-        if (action === "delete") removeTodo(index);
+        const { action, id } = btn.dataset;
+        if (action === "toggle") toggleDone(id);
+        if (action === "delete") removeTodo(id);
 
         onChange();
     });

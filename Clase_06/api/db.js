@@ -21,7 +21,7 @@ db.serialize(() => {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       task TEXT NOT NULL,
       dueDate TEXT NOT NULL,
-      done INTEGER NOT NULL DEFAULT 0,
+      done INTEGER NOT NULL DEFAULT 0
     );
   `);
 });

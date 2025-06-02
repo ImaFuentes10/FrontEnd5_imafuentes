@@ -10,7 +10,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "live-server": "^1.2.2",
-    "zod": "^3.25.32"
+    "zod": "^3.25.23"
   }
 }
