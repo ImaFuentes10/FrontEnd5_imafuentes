@@ -2,6 +2,7 @@
 import { getTodos, toggleDone, removeTodo } from "./state.js"
 
 
+
 /* ---------- utilidades ---------- */
 export function renderErrors(form, errors = {}) {
 
@@ -34,10 +35,13 @@ export function renderErrors(form, errors = {}) {
     }
 }
 
-export function renderRegisterOutput(pre, dataObj) {
+/* export function renderRegisterOutput(pre, dataObj) {
     pre.textContent = JSON.stringify(dataObj, null, 2);
-}
+} */
 
+
+/* renderTodoList function */
+/* creates each todo card with buttons. If todo done, then adds 'done' class */
 export async function renderTodoList(ul) {
     ul.replaceChildren(); // limpia
 
@@ -67,7 +71,9 @@ export async function renderTodoList(ul) {
     return
 }
 
+
 /* ---------- evento delegación para lista ---------- */
+/* this function is always active, when ul has a click it activates the corresponding funciton depending on the button, then callback refreshTodo*/
 export function setupTodoActions(ul, onChange) {
     ul.addEventListener("click", async (e) => {
 
@@ -83,13 +89,36 @@ export function setupTodoActions(ul, onChange) {
     });
 }
 
-/* export function toggleToDo () {
-    refreshTodos(todoList);
-  
-    /*   console.log(toDoToggle);
+const registerBtn = document.querySelector('#registerBtn');
 
-    toDoToggle.data.forEach((todo) => {
-        if (todo.done == 0) return
-        console.log("TODO terminado:", todo);
-    })
-} */
+registerBtn.addEventListener("click", () => {
+    toggleRegisterForm();
+});
+
+
+export function toggleRegisterForm () {
+    const registerForm = document.querySelectorAll('.registerContainer');
+    const loginCard = document.querySelectorAll('.loginCard');
+
+    registerForm.forEach(element => element.classList.toggle("hide"));
+
+    loginCard.forEach(element => element.classList.toggle("hide"));
+}
+
+export function toggleUserCardLogin () {
+    const userCard = document.querySelectorAll('.userCard');
+    const loginCard = document.querySelectorAll('.loginCard');
+
+    userCard.forEach(element => element.classList.toggle("hide"));
+
+    loginCard.forEach(element => element.classList.toggle("hide"));
+}
+
+export function toggleUserCardRegister () {
+    const registerForm = document.querySelectorAll('.registerContainer');
+    const userCard = document.querySelectorAll('.userCard');
+
+    registerForm.forEach(element => element.classList.toggle("hide"));
+
+    userCard.forEach(element => element.classList.toggle("hide"));
+}

@@ -24,9 +24,45 @@
 
 <body class="bg-body-tertiary">
     <main class="container py-5">
+
+        <section class="mb-5 loginCard">
+            <div class="card p-4 loginCard">
+                <h2 class="mb-3 text-center"><i class="bi bi-person-circle me-2"></i>Iniciar sesión</h2>
+                    <form id="loginForm" novalidate class="row gy-3 needs-validation">
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Correo</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                <input id="email-username" name="email-username" type="email text" class="form-control"
+                                    required />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-key"></i></span>
+                                <input id="passwordLogin" name="passwordLogin" type="password" class="form-control"
+                                    minlength="6" maxlength="20" required />
+                                <div class="invalid-feedback">Mínimo 6 caracteres</div>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3" id="loginBtn">
+                            <button class="btn btn-primary w-100" data-action="toggle">Iniciar sesión</button>
+                        </div>
+                    </form>
+                        <div class="col-12 mb-3" id="registerBtn">
+                            <button class="btn btn-secondary w-100" data-action="toggle">Registrarse</button>
+                        </div>
+                    </div>
+                
+        </section>
+
+        <!-- Separador -->
+        <hr class="my-5 loginCard">
+
         <!-- Registro de usuario -->
-        <section class="mb-5">
-            <div class="card p-4">
+        <section class="mb-5 registerContainer hide">
+            <div class="card p-4 registerContainer hide">
                 <h2 class="mb-3"><i class="bi bi-person-circle me-2"></i>Registro de usuario</h2>
                 <form id="registerForm" novalidate class="row gy-3 needs-validation">
                     <div class="col-md-6">
@@ -77,15 +113,26 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <button class="btn btn-primary w-100"><i class="bi bi-person-plus"></i> Registrar</button>
+                        <button class="btn btn-primary w-100" id="registerUserBtn"><i class="bi bi-person-plus"></i> Registrar</button>
                     </div>
                 </form>
-                <pre id="registerOutput" class="mt-4 p-3 bg-light border rounded"></pre>
+                <!-- <pre id="registerOutput" class="mt-4 p-3 bg-light border rounded"></pre> -->
             </div>
         </section>
 
         <!-- Separador -->
-        <hr class="my-5">
+        <hr class="my-5 registerContainer hide">
+
+        <section class="mb-5 hide userCard">
+            <div class="card p-4">
+                <h2 class="mb-3 text-center"><i class="bi bi-person-circle me-2"></i>Usuario</h2>
+                <h5 class="mb-3 text-center fw-semibold">Nombre</h5>
+                <h5 class="mb-3 text-center fw-light">Nombre</h5>
+            </div>
+        </section>
+
+        <!-- Separador -->
+        <hr class="my-5 hide userCard">
 
         <!-- Lista de tareas -->
         <section>

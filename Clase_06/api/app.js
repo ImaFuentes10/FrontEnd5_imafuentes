@@ -12,7 +12,7 @@ app.use(express.json());
 
 console.log("Por cargar las rutas");
 
-app.use("/api/user", users);
+app.use("/api/users", users);
 app.use("/api/todos", todos);
 
 console.log("Rutas cargadas");
@@ -23,6 +23,8 @@ app.listen(PORT, () => {
   console.log(`API corriendo en http://localhost:${PORT}`);
 });
 
+
+/* debug on hhttp://localhost:3005/debug */
 const db = require("./db");
 
 app.get("/debug", (req, res) => {

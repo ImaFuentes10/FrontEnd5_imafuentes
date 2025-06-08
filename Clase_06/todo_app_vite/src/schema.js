@@ -5,7 +5,7 @@ import { z } from 'https://cdn.jsdelivr.net/npm/zod@3.22.4/+esm';
 export const userSchema = z.object({
     name: z.string().trim().min(2, "Mínimo 2 caracteres"),
     email: z.string().email("Correo inválido"), /* email requerido*/
-    password: z.string().min(12).max(20), /* max 20 min 12 ab[-_$*#.]*/
+    password: z.string().min(6).max(20), /* max 20 min 12 ab[-_$*#.]*/
     phone: z
         .string()
         .regex(/^\d{10}$/, "Teléfono debe tener 10 dígitos")
@@ -30,6 +30,11 @@ export const todoSchema = z.object({
             },
             { message: "Fecha inválida o en el pasado" }
         ),
+});
+
+export const loginSchema = z.object({
+    email: z.string().email("Correo inválido"), /* email requerido*/
+    password: z.string().min(6).max(20), /* max 20 min 12 ab[-_$*#.]*/
 });
 
 // ---------- Helpers ----------

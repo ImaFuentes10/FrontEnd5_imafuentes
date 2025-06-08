@@ -1,19 +1,47 @@
 /* (MODULO) Este es el punto de entrada del aplicativo, el que concentra todas las funcionalidades */
 
-import { userSchema, todoSchema, validate } from "./schema.js";
-import { addTodo, getTodos } from "./state.js";
+import { userSchema, todoSchema, loginSchema, validate } from "./schema.js";
+import { addTodo, getTodos, addUser, getUsers } from "./state.js";
 import {
     renderErrors,
-    renderRegisterOutput,
+    //renderRegisterOutput,
     renderTodoList,
     setupTodoActions,
+    toggleUserCardLogin,
+    toggleUserCardRegister
 } from "./dom.js";
+
+
+/* ---------- 1. Iniciar Sesión ---------- */
+const loginForm = document.querySelector("#loginForm");
+
+loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    toggleUserCardLogin();
+
+    /* const formData = Object.fromEntries(new FormData(registerForm));
+    const { data, errors } = validate(userSchema, formData);
+
+    console.log("FORMDATA:", formData)
+
+    if (errors) {
+        renderErrors(registerForm, errors);
+    } else {
+        await addUser(data);
+        renderErrors(registerForm); // limpia
+        //renderRegisterOutput(registerOutput, data);
+        toggleUserCard();
+        registerForm.reset();
+    } */
+});
+
 
 /* ---------- 1. Registro ---------- */
 const registerForm = document.querySelector("#registerForm");
-const registerOutput = document.querySelector("#registerOutput");
+//const registerOutput = document.querySelector("#registerOutput");
 
-registerForm.addEventListener("submit", (e) => {
+registerForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const formData = Object.fromEntries(new FormData(registerForm));
     const { data, errors } = validate(userSchema, formData);
@@ -23,8 +51,10 @@ registerForm.addEventListener("submit", (e) => {
     if (errors) {
         renderErrors(registerForm, errors);
     } else {
+        await addUser(data);
         renderErrors(registerForm); // limpia
-        renderRegisterOutput(registerOutput, data);
+        //renderRegisterOutput(registerOutput, data);
+        toggleUserCardRegister();
         registerForm.reset();
     }
 });
@@ -35,9 +65,8 @@ export const todoList = document.querySelector("#todoList");
 
 export async function refreshTodos(ul) {
     const todos = await getTodos()
-    console.log("ToDo List:", todos )
+    //console.log("ToDo List:", todos )
     renderTodoList(ul);
-    console.log("prueba")
 }
 refreshTodos(todoList);
 setupTodoActions(todoList, refreshTodos);
@@ -52,8 +81,8 @@ todoForm.addEventListener("submit", async (e) => {
     } else {
         await addTodo(data);
         renderErrors(todoForm);
-        todoForm.reset();
         await refreshTodos(todoList);
+        todoForm.reset();
     }
 });
 

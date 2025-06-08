@@ -6,6 +6,7 @@ const db = require("../db");
 /* Router del servidor */
 const router = express.Router();
 
+
 /* Crear un todo (POST /api/todos) */
 router.post("/", (req, res) => {
   const { task, dueDate } = req.body;
@@ -21,6 +22,8 @@ router.post("/", (req, res) => {
   );
 });
 
+
+/* Obtiene todos (GET /api/todos) */
 router.get("/", (req, res) => {
   db.all(`SELECT * FROM todos`, (err, rows) => {
     if (err) return res.status(500).json({ error: err.message });
@@ -28,6 +31,8 @@ router.get("/", (req, res) => {
   });
 });
 
+
+/* Borra un todo (DELETE /api/todos) */
 router.delete("/:id", (req, res) => {
   const id = req.params.id;
   db.run(`DELETE FROM todos WHERE id = ?`, [id], function (err) {
@@ -38,6 +43,8 @@ router.delete("/:id", (req, res) => {
   });
 });
 
+
+/* Cambia un todo (PUT /api/todos) */
 router.put("/:id", (req, res) => {
   const id = req.params.id;
   const { done } = req.body;

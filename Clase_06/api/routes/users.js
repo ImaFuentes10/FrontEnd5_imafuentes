@@ -4,15 +4,15 @@ const router = express.Router();
 
 // Registrar usuario (POST /api/users)
 router.post("/", (req, res) => {
-  const { task, dueDate } = req.body;
+  const { name, email, password, phone, nickname } = req.body;
   if (!name || !email || !password)
     return res.status(400).json({ error: "Faltan datos obligatorios" });
   db.run(
-    `INSERT INTO users (name, email, password, phone) VALUES (?, ?, ?, ?)`,
-    [name, email, password, phone || null],
+    `INSERT INTO users (name, email, password, phone, nickname) VALUES (?, ?, ?, ?, ?)`,
+    [name, email, password, phone, nickname || null],
     function (err) {
       if (err) return res.status(500).json({ error: err.message });
-      res.status(201).json({ id: this.lastID, task, dueDate, done: 0 });
+      res.status(201).json({ id: this.lastID, name, email, password, phone, nickname });
     }
   );
 });

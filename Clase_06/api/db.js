@@ -13,7 +13,8 @@ db.serialize(() => {
       name TEXT NOT NULL,
       email TEXT UNIQUE NOT NULL,
       password TEXT NOT NULL,
-      phone TEXT
+      phone TEXT,
+      nickname TEXT
     );
   `);
     db.run(`
