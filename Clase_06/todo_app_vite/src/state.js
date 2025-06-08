@@ -1,4 +1,5 @@
 import axios from "axios";
+
 /* Este MODULO que maneja todo el estado de la aplicación, concentra la funcionalidad para manipular datos */
 const BASE_URL_API = "http://localhost:3005/api";
 
@@ -40,7 +41,6 @@ export async function toggleDone(id) {
   const todos = await getTodos();
   const todo = todos.find((t) => t.id === Number(id));
 
-  console.log("todos:", todos);
   if (!todo) {
     console.log("No se encontró el TODO con id:", id);
     return;
@@ -55,7 +55,7 @@ export async function toggleDone(id) {
     });
   } catch (err) {
     console.log("Error al actualizar el TODO:", err);
-  }
+  } 
 }
 
 export async function removeTodo(id) {
@@ -74,4 +74,3 @@ export async function removeTodo(id) {
     console.log("Error al eliminar el TODO:", err);
   }
 }
-

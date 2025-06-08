@@ -1,7 +1,7 @@
 /* (MODULO) Este es el punto de entrada del aplicativo, el que concentra todas las funcionalidades */
 
 import { userSchema, todoSchema, validate } from "./schema.js";
-import { addTodo } from "./state.js";
+import { addTodo, getTodos } from "./state.js";
 import {
     renderErrors,
     renderRegisterOutput,
@@ -31,15 +31,18 @@ registerForm.addEventListener("submit", (e) => {
 
 /* ---------- 2. Todo App ---------- */
 const todoForm = document.querySelector("#todoForm");
-const todoList = document.querySelector("#todoList");
+export const todoList = document.querySelector("#todoList");
 
-function refreshTodos() {
-    renderTodoList(todoList);
+export async function refreshTodos(ul) {
+    const todos = await getTodos()
+    console.log("ToDo List:", todos )
+    renderTodoList(ul);
+    console.log("prueba")
 }
-refreshTodos();
+refreshTodos(todoList);
 setupTodoActions(todoList, refreshTodos);
 
-todoForm.addEventListener("submit", (e) => {
+todoForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const formData = Object.fromEntries(new FormData(todoForm));
     const { data, errors } = validate(todoSchema, formData);
@@ -47,10 +50,10 @@ todoForm.addEventListener("submit", (e) => {
     if (errors) {
         renderErrors(todoForm, errors);
     } else {
-        addTodo(data);
+        await addTodo(data);
         renderErrors(todoForm);
         todoForm.reset();
-        refreshTodos();
+        await refreshTodos(todoList);
     }
 });
 

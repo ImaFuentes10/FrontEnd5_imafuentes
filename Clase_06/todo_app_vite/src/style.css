@@ -17,7 +17,7 @@
      box-shadow: 0 2px 8px rgba(33, 150, 243, 0.08);
  }
 
- ul#todoList li.done span {
+#todoList .done span {
      text-decoration: line-through;
      opacity: 0.6;
  }

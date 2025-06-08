@@ -42,7 +42,9 @@ export async function renderTodoList(ul) {
     ul.replaceChildren(); // limpia
 
     const todos = await getTodos()
+   
     todos.forEach((todo) => {
+        
         const li = document.createElement("li");
         li.className =
             "list-group-item d-flex justify-content-between align-items-center";
@@ -62,20 +64,32 @@ export async function renderTodoList(ul) {
 
         ul.appendChild(li);
     });
+    return
 }
 
 /* ---------- evento delegación para lista ---------- */
 export function setupTodoActions(ul, onChange) {
-    ul.addEventListener("click", (e) => {
+    ul.addEventListener("click", async (e) => {
 
         const btn = e.target.closest("button");
 
         if (!btn) return;
 
         const { action, id } = btn.dataset;
-        if (action === "toggle") toggleDone(id);
-        if (action === "delete") removeTodo(id);
+        if (action === "toggle") await toggleDone(id);
+        if (action === "delete") await removeTodo(id);
 
-        onChange();
+        await onChange(ul);
     });
 }
+
+/* export function toggleToDo () {
+    refreshTodos(todoList);
+  
+    /*   console.log(toDoToggle);
+
+    toDoToggle.data.forEach((todo) => {
+        if (todo.done == 0) return
+        console.log("TODO terminado:", todo);
+    })
+} */
