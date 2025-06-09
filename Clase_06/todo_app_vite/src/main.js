@@ -11,7 +11,7 @@ import {
 } from "./dom.js";
 import {
     toggleLoginUserCard,
-    toggleRegisterFormUserCard
+    toggleRegisterFormUserCard,
 } from "./cards.js"
 
 
