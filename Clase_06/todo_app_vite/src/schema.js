@@ -5,13 +5,16 @@ import { z } from 'https://cdn.jsdelivr.net/npm/zod@3.22.4/+esm';
 export const userSchema = z.object({
     name: z.string().trim().min(2, "Mínimo 2 caracteres"),
     email: z.string().email("Correo inválido"), /* email requerido*/
-    password: z.string().min(6).max(20), /* max 20 min 12 ab[-_$*#.]*/
+    password: z
+            .string()
+            .min(6, "Mínimo 6 caracteres")
+            .max(20, "Máximo 20 caracteres"), /* max 20 min 12 ab[-_$*#.]*/
     phone: z
         .string()
         .regex(/^\d{10}$/, "Teléfono debe tener 10 dígitos")
         .optional()
         .or(z.literal("")), /* 10 digitos opcional*/
-    nickname: z.string().min(3),
+    username: z.string().min(3, "Mínimo 3 caracteres"),
 })
 
 export const todoSchema = z.object({
@@ -33,8 +36,11 @@ export const todoSchema = z.object({
 });
 
 export const loginSchema = z.object({
-    email: z.string().email("Correo inválido"), /* email requerido*/
-    password: z.string().min(6).max(20), /* max 20 min 12 ab[-_$*#.]*/
+    emailLogin: z.string().email("Correo inválido"), /* email requerido*/
+    passwordLogin:  z
+                .string()
+                .min(6, "Mínimo 6 caracteres")
+                .max(20, "Máximo 20 caracteres"), /* max 20 min 12 ab[-_$*#.]*/
 });
 
 // ---------- Helpers ----------

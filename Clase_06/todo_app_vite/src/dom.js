@@ -1,10 +1,11 @@
 /* Este MODULO es el encargado de renderizar y redibujar todo el contenido, osea todo el DOM */
 import { getTodos, toggleDone, removeTodo } from "./state.js"
+import { toggleLoginRegisterForm, toggleLoginUserCard } from "./cards.js";
 
 
 
 /* ---------- utilidades ---------- */
-export function renderErrors(form, errors = {}) {
+export function renderErrors(form, errors = {}, generalError = "") {
 
     // limpia estados previos
     [...form.elements].forEach((el) => {
@@ -16,7 +17,7 @@ export function renderErrors(form, errors = {}) {
             feedback.classList.remove("d-block");
         }
     });
-    //
+    
 
     // muestra nuevos
     Object.entries(errors).forEach(([name, msgs]) => {
@@ -27,17 +28,67 @@ export function renderErrors(form, errors = {}) {
         input.nextElementSibling.classList.add("d-block");
     });
 
+    
+
     // green cuando todo ok
     if (!Object.keys(errors).length) {
         [...form.elements]
             .filter((el) => el.name)
-            .forEach((el) => el.classList.add("is-valid"));
+            .forEach((el) => {
+                el.classList.add("is-valid");
+                
+            })
+    }
+
+
+    if (generalError) {
+    
+        [...form.elements].forEach((el) => el.classList.remove("is-valid")); //evito verde en elementos del form
+
+        const generalFeedback = form.querySelector("#generalFeedback");   
+
+        if (generalFeedback) {
+            generalFeedback.textContent = generalError;
+            generalFeedback.classList.add("d-block");
+        } 
     }
 }
 
+            
+
+/* PRE with register data info */
 /* export function renderRegisterOutput(pre, dataObj) {
     pre.textContent = JSON.stringify(dataObj, null, 2);
 } */
+
+/* render userCard */
+
+export function renderUserCard (userCardSection, user) {
+
+    userCardSection.replaceChildren();
+
+    const div = document.createElement("div");
+    div.className = "card p-4";
+    div.id = "divUserCard"
+    div.innerHTML=
+        `
+            <h2 class="mb-3 text-center"><i class="bi bi-person-circle me-2"></i>Usuario</h2>
+            <h5 class="mb-3 text-center fw-bold">${user.name}</h5>
+            <h5 class="mb-3 text-center fw-normal"><span class="fw-lighter fst-italic fs-6">Username:</span> ${user.username}</h5>
+            <button class="btn btn-sm btn-outline-danger" id="logoutBtn">
+                Cerrar sesión
+            </button>
+        `;
+
+    userCardSection.appendChild(div);
+
+    const logoutBtn = div.querySelector('#logoutBtn');
+
+    logoutBtn.addEventListener('click', () => {
+        toggleLoginUserCard();
+        userCardSection.innerHTML = "";
+    }) 
+}
 
 
 /* renderTodoList function */
@@ -89,36 +140,10 @@ export function setupTodoActions(ul, onChange) {
     });
 }
 
+
+/* Register Btn click */
 const registerBtn = document.querySelector('#registerBtn');
 
 registerBtn.addEventListener("click", () => {
-    toggleRegisterForm();
+    toggleLoginRegisterForm();
 });
-
-
-export function toggleRegisterForm () {
-    const registerForm = document.querySelectorAll('.registerContainer');
-    const loginCard = document.querySelectorAll('.loginCard');
-
-    registerForm.forEach(element => element.classList.toggle("hide"));
-
-    loginCard.forEach(element => element.classList.toggle("hide"));
-}
-
-export function toggleUserCardLogin () {
-    const userCard = document.querySelectorAll('.userCard');
-    const loginCard = document.querySelectorAll('.loginCard');
-
-    userCard.forEach(element => element.classList.toggle("hide"));
-
-    loginCard.forEach(element => element.classList.toggle("hide"));
-}
-
-export function toggleUserCardRegister () {
-    const registerForm = document.querySelectorAll('.registerContainer');
-    const userCard = document.querySelectorAll('.userCard');
-
-    registerForm.forEach(element => element.classList.toggle("hide"));
-
-    userCard.forEach(element => element.classList.toggle("hide"));
-}

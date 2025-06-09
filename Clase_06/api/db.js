@@ -14,7 +14,7 @@ db.serialize(() => {
       email TEXT UNIQUE NOT NULL,
       password TEXT NOT NULL,
       phone TEXT,
-      nickname TEXT
+      username TEXT
     );
   `);
     db.run(`

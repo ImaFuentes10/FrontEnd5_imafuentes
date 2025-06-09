@@ -7,9 +7,12 @@ import {
     //renderRegisterOutput,
     renderTodoList,
     setupTodoActions,
-    toggleUserCardLogin,
-    toggleUserCardRegister
+    renderUserCard
 } from "./dom.js";
+import {
+    toggleLoginUserCard,
+    toggleRegisterFormUserCard
+} from "./cards.js"
 
 
 /* ---------- 1. Iniciar Sesión ---------- */
@@ -18,26 +21,48 @@ const loginForm = document.querySelector("#loginForm");
 loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    toggleUserCardLogin();
+    const formData = Object.fromEntries(new FormData(loginForm));
+    const {errors} = validate(loginSchema, formData);
 
-    /* const formData = Object.fromEntries(new FormData(registerForm));
-    const { data, errors } = validate(userSchema, formData);
+    console.log("FORMDATALOGIN:", formData)
 
-    console.log("FORMDATA:", formData)
-
+    const email = formData.emailLogin;
+    const password = formData.passwordLogin;
+    
     if (errors) {
-        renderErrors(registerForm, errors);
+        renderErrors(loginForm, errors);
     } else {
-        await addUser(data);
-        renderErrors(registerForm); // limpia
+        const users = await getUsers();
+         // limpia
         //renderRegisterOutput(registerOutput, data);
-        toggleUserCard();
-        registerForm.reset();
-    } */
+        console.log(users);
+        users.forEach(user => {
+            if (email === user.email && password === user.password) {
+                loginForm.reset();
+                toggleLoginUserCard();
+                const userCardSection = document.querySelector("#userCard");
+                renderUserCard(userCardSection, user);  
+            } else renderErrors(loginForm, {}, "Correo o contraseña incorrectos");
+        });
+        
+    }
+});
+
+const inputs = document.querySelectorAll('input');
+
+inputs.forEach(input => {
+    input.addEventListener("input", () => {
+    input.classList.remove("is-invalid", "is-valid");
+        const feedback = input.closest(".input-group")?.querySelector(".invalid-feedback") ?? input.nextElementSibling;
+        if (feedback) {
+            feedback.textContent = "";
+            feedback.classList.remove("d-block");
+        }
+    });
 });
 
 
-/* ---------- 1. Registro ---------- */
+/* ---------- 2. Registro ---------- */
 const registerForm = document.querySelector("#registerForm");
 //const registerOutput = document.querySelector("#registerOutput");
 
@@ -54,12 +79,14 @@ registerForm.addEventListener("submit", async (e) => {
         await addUser(data);
         renderErrors(registerForm); // limpia
         //renderRegisterOutput(registerOutput, data);
-        toggleUserCardRegister();
+        toggleRegisterFormUserCard();
+        const userCardSection = document.querySelector("#userCard");
+        renderUserCard(userCardSection, data);
         registerForm.reset();
     }
 });
 
-/* ---------- 2. Todo App ---------- */
+/* ---------- 3. Todo App ---------- */
 const todoForm = document.querySelector("#todoForm");
 export const todoList = document.querySelector("#todoList");
 
