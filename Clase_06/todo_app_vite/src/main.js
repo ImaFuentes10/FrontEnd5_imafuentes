@@ -11,15 +11,17 @@ import {
 } from "./dom.js";
 import {
     toggleLoginUserCard,
-    toggleRegisterFormUserCard,
-} from "./cards.js"
+    toggleRegisterFormSuccess,
+    toggleSuccessUserCard,
+    toggleBtnLoader
+} from "./toggles.js"
 
 
 /* ---------- 1. Iniciar Sesión ---------- */
 const loginForm = document.querySelector("#loginForm");
 
 loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    e.preventDefault();    
 
     const formData = Object.fromEntries(new FormData(loginForm));
     const {errors} = validate(loginSchema, formData);
@@ -32,10 +34,10 @@ loginForm.addEventListener("submit", async (e) => {
     if (errors) {
         renderErrors(loginForm, errors);
     } else {
+        toggleBtnLoader(loginForm);
         const users = await getUsers();
-         // limpia
+        toggleBtnLoader(loginForm);
         //renderRegisterOutput(registerOutput, data);
-        console.log(users);
         users.forEach(user => {
             if (email === user.email && password === user.password) {
                 loginForm.reset();
@@ -43,8 +45,7 @@ loginForm.addEventListener("submit", async (e) => {
                 const userCardSection = document.querySelector("#userCard");
                 renderUserCard(userCardSection, user);  
             } else renderErrors(loginForm, {}, "Correo o contraseña incorrectos");
-        });
-        
+        });  
     }
 });
 
@@ -79,12 +80,18 @@ registerForm.addEventListener("submit", async (e) => {
         await addUser(data);
         renderErrors(registerForm); // limpia
         //renderRegisterOutput(registerOutput, data);
-        toggleRegisterFormUserCard();
         const userCardSection = document.querySelector("#userCard");
         renderUserCard(userCardSection, data);
+        toggleRegisterFormSuccess();
         registerForm.reset();
     }
 });
+
+const btnSuccess = document.querySelector('.btn-success');
+
+btnSuccess.addEventListener("click", () => {
+    toggleSuccessUserCard();
+})
 
 /* ---------- 3. Todo App ---------- */
 const todoForm = document.querySelector("#todoForm");

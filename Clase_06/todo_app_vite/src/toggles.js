@@ -29,18 +29,42 @@ export function toggleLoginUserCard () {
     }
 }
 
-export function toggleRegisterFormUserCard () {
+export function toggleRegisterFormSuccess () {
+    const registerForm = document.querySelectorAll('.registerContainer');
+    const success = document.querySelector('#regSuccess');
+
+    registerForm.forEach(element => element.classList.toggle("hide"));
+    success.classList.toggle("hide");
+}
+
+export function toggleSuccessUserCard () {
+    const success = document.querySelector('#regSuccess');
+    const userCard = document.querySelectorAll('.userCard');
+
+    success.classList.toggle("hide");
+    userCard.forEach(element => element.classList.toggle("hide"));
+    toggleTodoForm();
+}
+
+/* export function toggleRegisterFormUserCard () {
     const registerForm = document.querySelectorAll('.registerContainer');
     const userCard = document.querySelectorAll('.userCard');
 
     registerForm.forEach(element => element.classList.toggle("hide"));
     userCard.forEach(element => element.classList.toggle("hide"));
     toggleTodoForm();
-}
+} */
 
 export function toggleTodoForm () {
     const todoFormCard = document.querySelector("#todoFormCard");
 
     //src.forEach(element => element.classList.toggle("hide"));
     todoFormCard.classList.toggle("hide");
+}
+
+
+export function toggleBtnLoader (form) {
+    const btnLoader = form.querySelectorAll(".btn-loader");
+    
+    btnLoader.forEach(el => el.classList.toggle("hide"));
 }

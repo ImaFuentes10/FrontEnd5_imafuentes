@@ -1,6 +1,6 @@
 /* Este MODULO es el encargado de renderizar y redibujar todo el contenido, osea todo el DOM */
 import { getTodos, toggleDone, removeTodo } from "./state.js"
-import { toggleLoginRegisterForm, toggleLoginUserCard } from "./cards.js";
+import { toggleLoginRegisterForm, toggleLoginUserCard } from "./toggles.js";
 
 
 

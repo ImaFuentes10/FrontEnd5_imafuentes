@@ -49,7 +49,11 @@
                         </div>
                         <div class="invalid-feedback" id="generalFeedback"></div>
                         <div class="col-12 mb-3" id="loginBtn">
-                            <button class="btn btn-primary w-100" data-action="toggle">Iniciar sesión</button>
+                            <button class="btn btn-primary w-100" data-action="toggle">
+                                <div class="text-center">
+                                    <div class="spinner-border text center btn-loader hide" role="status"></div>
+                                </div><span class="btn-loader">Iniciar sesión</span>
+                            </button>
                         </div>
                     </form>
                         <div class="col-12 mb-3" id="registerBtn">
@@ -119,10 +123,19 @@
             </div>
         </section>
 
-        <section class="mb-5" id="userCard"></section>
+        <section class="mb-5 userCard hide" id="userCard"></section>
 
         <!-- Separador -->
         <hr class="my-5 hide userCard">
+
+        <section class="hide" id="regSuccess">
+            <div class="card p-4 text-center">
+                <h2 class="mb-3">Registro exitoso!</h2>
+                <div class="col-12">
+                    <button class="btn btn-success w-100 btn-success"> Continuar <i class="bi bi-arrow-right-circle"></i></button>
+                </div>
+            </div>
+        </section>
 
         <!-- Lista de tareas -->
         <section class="hide" id="todoFormCard">
