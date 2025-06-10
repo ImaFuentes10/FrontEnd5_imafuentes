@@ -1,6 +1,6 @@
 /* Este MODULO es el encargado de renderizar y redibujar todo el contenido, osea todo el DOM */
 import { getTodos, toggleDone, removeTodo } from "./state.js"
-import { toggleLoginRegisterForm, toggleLoginUserCard } from "./toggles.js";
+import { toggleLoginRegisterForm, toggleLoginUserCard, toggleSuccessUserCard } from "./toggles.js";
 
 
 
@@ -54,7 +54,31 @@ export function renderErrors(form, errors = {}, generalError = "") {
     }
 }
 
-            
+/* Clean input colors when input */
+const inputs = document.querySelectorAll('input');
+
+inputs.forEach(input => {
+    input.addEventListener("input", () => {
+    input.classList.remove("is-invalid", "is-valid");
+    });
+});
+
+
+const backBtn = document.querySelector('.back-btn');
+
+backBtn.addEventListener("click", () => {
+    toggleLoginRegisterForm();
+})
+
+/* success card btn */
+const btnSuccess = document.querySelector('.btn-success');
+
+btnSuccess.addEventListener("click", () => {
+    toggleSuccessUserCard();
+})
+
+
+
 
 /* PRE with register data info */
 /* export function renderRegisterOutput(pre, dataObj) {
@@ -63,7 +87,12 @@ export function renderErrors(form, errors = {}, generalError = "") {
 
 /* render userCard */
 
-export function renderUserCard (userCardSection, user) {
+export function renderUserCard (user) {
+
+    //limpio colores input
+    inputs.forEach(input => input.classList.remove("is-invalid", "is-valid"));
+
+    const userCardSection = document.querySelector("#userCard");
 
     userCardSection.replaceChildren();
 

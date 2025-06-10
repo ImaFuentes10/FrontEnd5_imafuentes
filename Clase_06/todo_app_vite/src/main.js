@@ -12,7 +12,6 @@ import {
 import {
     toggleLoginUserCard,
     toggleRegisterFormSuccess,
-    toggleSuccessUserCard,
     toggleBtnLoader
 } from "./toggles.js"
 
@@ -42,25 +41,12 @@ loginForm.addEventListener("submit", async (e) => {
             if (email === user.email && password === user.password) {
                 loginForm.reset();
                 toggleLoginUserCard();
-                const userCardSection = document.querySelector("#userCard");
-                renderUserCard(userCardSection, user);  
+                renderUserCard(user);  
             } else renderErrors(loginForm, {}, "Correo o contraseña incorrectos");
         });  
     }
 });
 
-const inputs = document.querySelectorAll('input');
-
-inputs.forEach(input => {
-    input.addEventListener("input", () => {
-    input.classList.remove("is-invalid", "is-valid");
-        const feedback = input.closest(".input-group")?.querySelector(".invalid-feedback") ?? input.nextElementSibling;
-        if (feedback) {
-            feedback.textContent = "";
-            feedback.classList.remove("d-block");
-        }
-    });
-});
 
 
 /* ---------- 2. Registro ---------- */
@@ -81,17 +67,13 @@ registerForm.addEventListener("submit", async (e) => {
         renderErrors(registerForm); // limpia
         //renderRegisterOutput(registerOutput, data);
         const userCardSection = document.querySelector("#userCard");
-        renderUserCard(userCardSection, data);
+        renderUserCard(data);
         toggleRegisterFormSuccess();
         registerForm.reset();
     }
 });
 
-const btnSuccess = document.querySelector('.btn-success');
 
-btnSuccess.addEventListener("click", () => {
-    toggleSuccessUserCard();
-})
 
 /* ---------- 3. Todo App ---------- */
 const todoForm = document.querySelector("#todoForm");
