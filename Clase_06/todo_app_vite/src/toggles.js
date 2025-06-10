@@ -1,5 +1,8 @@
 /* modulo para paginación con cambio de las tarjetas */
+import { renderTodoList } from './dom'
+import { todoList } from './main'
 
+/* LogIn to Register Form */
 export function toggleLoginRegisterForm () {
     
     const loginCard = document.querySelectorAll('.loginCard');
@@ -9,6 +12,8 @@ export function toggleLoginRegisterForm () {
     registerForm.forEach(element => element.classList.toggle("hide"));
 }
 
+
+/* LogIn to User Card */
 export function toggleLoginUserCard () {
     
     const loginCard = document.querySelectorAll('.loginCard');
@@ -29,6 +34,8 @@ export function toggleLoginUserCard () {
     }
 }
 
+
+/* Register Form to Success Card */
 export function toggleRegisterFormSuccess () {
     const registerForm = document.querySelectorAll('.registerContainer');
     const success = document.querySelector('#regSuccess');
@@ -37,6 +44,8 @@ export function toggleRegisterFormSuccess () {
     success.classList.toggle("hide");
 }
 
+
+/* Success Card to user Card */
 export function toggleSuccessUserCard () {
     const success = document.querySelector('#regSuccess');
     const userCard = document.querySelectorAll('.userCard');
@@ -46,23 +55,18 @@ export function toggleSuccessUserCard () {
     toggleTodoForm();
 }
 
-/* export function toggleRegisterFormUserCard () {
-    const registerForm = document.querySelectorAll('.registerContainer');
-    const userCard = document.querySelectorAll('.userCard');
 
-    registerForm.forEach(element => element.classList.toggle("hide"));
-    userCard.forEach(element => element.classList.toggle("hide"));
-    toggleTodoForm();
-} */
-
-export function toggleTodoForm () {
+/* Show and Hide ToDo Form */
+export function toggleTodoForm () {   
     const todoFormCard = document.querySelector("#todoFormCard");
 
-    //src.forEach(element => element.classList.toggle("hide"));
     todoFormCard.classList.toggle("hide");
+    todoList.innerHTML = "";
+    renderTodoList(todoList)
 }
 
 
+/* Login button Loader */
 export function toggleBtnLoader (form) {
     const btnLoader = form.querySelectorAll(".btn-loader");
     

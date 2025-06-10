@@ -1,5 +1,5 @@
 /* Este MODULO es el encargado de renderizar y redibujar todo el contenido, osea todo el DOM */
-import { getTodos, toggleDone, removeTodo } from "./state.js"
+import { getTodos, toggleDone, removeTodo, getUserID } from "./state.js"
 import { toggleLoginRegisterForm, toggleLoginUserCard, toggleSuccessUserCard } from "./toggles.js";
 
 
@@ -40,7 +40,7 @@ export function renderErrors(form, errors = {}, generalError = "") {
             })
     }
 
-
+/* general errors */
     if (generalError) {
     
         [...form.elements].forEach((el) => el.classList.remove("is-valid")); //evito verde en elementos del form
@@ -63,7 +63,7 @@ inputs.forEach(input => {
     });
 });
 
-
+/* back btn registerform */
 const backBtn = document.querySelector('.back-btn');
 
 backBtn.addEventListener("click", () => {
@@ -111,11 +111,13 @@ export function renderUserCard (user) {
 
     userCardSection.appendChild(div);
 
+    /* logout Button */
     const logoutBtn = div.querySelector('#logoutBtn');
 
     logoutBtn.addEventListener('click', () => {
         toggleLoginUserCard();
         userCardSection.innerHTML = "";
+        sessionStorage.removeItem('userID');
     }) 
 }
 
@@ -125,7 +127,9 @@ export function renderUserCard (user) {
 export async function renderTodoList(ul) {
     ul.replaceChildren(); // limpia
 
-    const todos = await getTodos()
+    const userID = getUserID();
+    //console.log("ID:", userID);
+    const todos = await getTodos(userID)
    
     todos.forEach((todo) => {
         
@@ -148,7 +152,6 @@ export async function renderTodoList(ul) {
 
         ul.appendChild(li);
     });
-    return
 }
 
 
@@ -162,10 +165,11 @@ export function setupTodoActions(ul, onChange) {
         if (!btn) return;
 
         const { action, id } = btn.dataset;
+        console.log("BTN;", {action, id})
         if (action === "toggle") await toggleDone(id);
         if (action === "delete") await removeTodo(id);
 
-        await onChange(ul);
+        await onChange(ul, id);
     });
 }
 

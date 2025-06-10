@@ -18,13 +18,16 @@ db.serialize(() => {
     );
   `);
     db.run(`
-    CREATE TABLE IF NOT EXISTS todos (
+    CREATE TABLE IF NOT EXISTS todos (  
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
       task TEXT NOT NULL,
       dueDate TEXT NOT NULL,
-      done INTEGER NOT NULL DEFAULT 0
+      done INTEGER NOT NULL DEFAULT 0,
+      FOREIGN KEY (user_id) REFERENCES users(id)
     );
   `);
 });
+
 
 module.exports = db;

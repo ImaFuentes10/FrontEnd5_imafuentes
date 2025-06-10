@@ -8,7 +8,9 @@ const BASE_URL_API = "http://localhost:3005/api";
 /* gets todos from API */
 export const getTodos = async () => {
   try {
-    const todos = await axios.get(`${BASE_URL_API}/todos`);
+    const userID = getUserID();
+    //console.log("ID:", userID)
+    const todos = await axios.get(`${BASE_URL_API}/todos/user/${userID}`);
     console.log("llamada axios", todos);
     return todos.data;
   } catch (err) {
@@ -21,13 +23,18 @@ export const getTodos = async () => {
 /* addTodo */
 /* Ejecutar función para añadir un nuevo pendiente, a un listado de pendientes y si es a traves de API, llamar a la API con un POST para crear. */
 export async function addTodo(item) {
-  
+  //console.log("ITEM:", item);
   try {
+    const userID = getUserID();
+    console.log("ID:", userID)
     const response = await axios.post(`${BASE_URL_API}/todos`, {
-      ...item,
+      //id: item.id,
+      user_id: userID,
+      task: item.task,
+      dueDate: item.dueDate,
       done: 0,
     });
-    console.log(response.data)
+    //console.log(response.data)
     return response.data;
   } catch (err) {
     console.log("Error al crear el TODO :", err);
@@ -39,6 +46,7 @@ export async function addTodo(item) {
 /* toggleDone function */
 /*toggles todo state and uploads change to API*/
 export async function toggleDone(id) {
+ 
   const todos = await getTodos();
   const todo = todos.find((t) => t.id === Number(id));
 
@@ -63,6 +71,7 @@ export async function toggleDone(id) {
 /* removeTodo function */
 /* Deletes todo from API */
 export async function removeTodo(id) {
+  
   const todos = await getTodos();
   const todo = todos.find((t) => t.id === Number(id));
 
@@ -80,7 +89,7 @@ export async function removeTodo(id) {
 }
 
 
-/* funciton getUsers */
+/* function getUsers */
 /* gets users from API */
 export const getUsers = async () => {
   try {
@@ -102,10 +111,16 @@ export async function addUser(item) {
     const response = await axios.post(`${BASE_URL_API}/users`, {
       ...item
     });
-    console.log("test", response.data)
+    //console.log("test", response.data)
     return response.data;
   } catch (err) {
     console.log("Error al crear el usuario:", err);
     return {};
   }
+}
+
+/* functio get User ID from session storage */
+export const getUserID = () => {
+  const userID = sessionStorage.getItem('userID');
+  return userID
 }

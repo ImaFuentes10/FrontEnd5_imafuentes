@@ -39,9 +39,10 @@ loginForm.addEventListener("submit", async (e) => {
         //renderRegisterOutput(registerOutput, data);
         users.forEach(user => {
             if (email === user.email && password === user.password) {
+                sessionStorage.setItem('userID', user.id) //añado id a session storage
                 loginForm.reset();
                 toggleLoginUserCard();
-                renderUserCard(user);  
+                renderUserCard(user);
             } else renderErrors(loginForm, {}, "Correo o contraseña incorrectos");
         });  
     }
@@ -58,19 +59,22 @@ registerForm.addEventListener("submit", async (e) => {
     const formData = Object.fromEntries(new FormData(registerForm));
     const { data, errors } = validate(userSchema, formData);
 
-    console.log("FORMDATA:", formData)
+    //console.log("FORMDATA:", formData)
 
     if (errors) {
         renderErrors(registerForm, errors);
     } else {
         await addUser(data);
-        renderErrors(registerForm); // limpia
-        //renderRegisterOutput(registerOutput, data);
-        const userCardSection = document.querySelector("#userCard");
-        renderUserCard(data);
-        toggleRegisterFormSuccess();
-        registerForm.reset();
-    }
+        renderErrors(registerForm);//limpia
+        const users = await getUsers();
+        users.forEach(user => {
+        if (formData.email === user.email && formData.password === user.password) {
+            sessionStorage.setItem('userID', user.id)
+            registerForm.reset();
+            toggleRegisterFormSuccess()
+            renderUserCard(user);
+        }});
+    };
 });
 
 
@@ -79,13 +83,7 @@ registerForm.addEventListener("submit", async (e) => {
 const todoForm = document.querySelector("#todoForm");
 export const todoList = document.querySelector("#todoList");
 
-export async function refreshTodos(ul) {
-    const todos = await getTodos()
-    //console.log("ToDo List:", todos )
-    renderTodoList(ul);
-}
-refreshTodos(todoList);
-setupTodoActions(todoList, refreshTodos);
+setupTodoActions(todoList, renderTodoList);
 
 todoForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -95,9 +93,10 @@ todoForm.addEventListener("submit", async (e) => {
     if (errors) {
         renderErrors(todoForm, errors);
     } else {
+        
         await addTodo(data);
         renderErrors(todoForm);
-        await refreshTodos(todoList);
+        await renderTodoList(todoList);
         todoForm.reset();
     }
 });

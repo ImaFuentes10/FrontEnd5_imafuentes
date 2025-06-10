@@ -9,23 +9,24 @@ const router = express.Router();
 
 /* Crear un todo (POST /api/todos) */
 router.post("/", (req, res) => {
-  const { task, dueDate } = req.body;
-  if (!task || !dueDate)
+  const { user_id, task, dueDate } = req.body;
+  if (!user_id || !task || !dueDate)
     return res.status(400).json({ error: "Faltan datos obligatorios" });
   db.run(
-    `INSERT INTO todos (task, dueDate) VALUES (?, ?)`,
-    [task, dueDate],
+    `INSERT INTO todos (user_id, task, dueDate) VALUES (?, ?, ?)`,
+    [user_id, task, dueDate],
     function (err) {
       if (err) return res.status(500).json({ error: err.message });
-      res.status(201).json({ id: this.lastID, task, dueDate, done: 0 });
+      res.status(201).json({ id: this.lastID, user_id, task, dueDate, done: 0 });
     }
   );
 });
 
 
 /* Obtiene todos (GET /api/todos) */
-router.get("/", (req, res) => {
-  db.all(`SELECT * FROM todos`, (err, rows) => {
+router.get("/user/:user_id", (req, res) => {
+  const user_id = req.params.user_id;
+  db.all(`SELECT * FROM todos WHERE user_id = ?`, [user_id], (err, rows) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(rows);
   });
